@@ -102,6 +102,7 @@
   .chapter-btns{
     display:flex; flex-wrap:wrap; gap:14px; justify-content:center; max-width:600px;
   }
+  .chapter-btn-wrap{display:inline-block;}
   .chapter-btn{
     background:var(--board-2);
     border:1.5px solid var(--gold);
@@ -115,14 +116,201 @@
     transition:.2s;
   }
   .chapter-btn:hover{background:var(--gold); color:#16241f;}
-  .add-chapter-hint{
-    margin-top:30px;
-    font-size:.78rem;
-    color:var(--chalk-dim);
-    border:1.5px dashed var(--teal-line);
-    padding:10px 18px;
+
+  .delete-btn{
+    margin-top:22px;
+    background:transparent;
+    border:1.5px dashed var(--coral);
+    color:var(--coral);
+    font-family:'Cairo', sans-serif;
+    font-size:.82rem;
+    padding:10px 22px;
     border-radius:999px;
+    cursor:pointer;
+    transition:.2s;
   }
+  .delete-btn:hover{background:var(--coral); color:var(--board);}
+  .delete-btn.active{background:var(--coral); color:var(--board); border-style:solid;}
+
+  @keyframes wiggle{
+    0%{ transform:rotate(-1.5deg); }
+    50%{ transform:rotate(1.5deg); }
+    100%{ transform:rotate(-1.5deg); }
+  }
+  .delete-mode .chapter-btn-wrap,
+  .delete-mode .chap-card{
+    animation:wiggle .22s infinite;
+  }
+  .delete-mode .chapter-btn,
+  .delete-mode .chap-card{
+    border-color:var(--coral) !important;
+  }
+  .delete-mode .chapter-btn-wrap:nth-child(2n) .chapter-btn,
+  .delete-mode .chap-card:nth-child(2n){
+    animation-delay:.08s;
+  }
+
+  .add-btn{
+    margin-top:30px;
+    background:transparent;
+    border:1.5px dashed var(--teal-line);
+    color:var(--chalk-dim);
+    font-family:'Cairo', sans-serif;
+    font-size:.82rem;
+    padding:10px 20px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:.2s;
+  }
+  .add-btn:hover{border-color:var(--gold); color:var(--gold);}
+
+  .inline-form{
+    display:none;
+    margin-top:22px;
+    width:100%;
+    max-width:380px;
+    background:var(--board-2);
+    border:1px solid var(--teal-line);
+    border-radius:var(--radius);
+    padding:20px;
+    text-align:right;
+  }
+  .inline-form.open{display:block;}
+  .inline-form label{
+    display:block;
+    font-size:.78rem;
+    color:var(--gold);
+    margin:0 0 6px;
+  }
+  .inline-form .f-row{margin-bottom:14px;}
+  .inline-form .f-row:last-of-type{margin-bottom:0;}
+  .inline-form input[type=text],
+  .inline-form input[type=url]{
+    width:100%;
+    background:var(--board);
+    border:1px solid var(--teal-line);
+    border-radius:8px;
+    padding:10px 12px;
+    color:var(--chalk);
+    font-family:'Cairo', sans-serif;
+    font-size:.88rem;
+    direction:rtl;
+    outline:none;
+  }
+  .inline-form input[type=text]:focus,
+  .inline-form input[type=url]:focus{border-color:var(--gold);}
+  .inline-form .checkbox-row{
+    display:flex; align-items:center; gap:8px;
+    font-size:.85rem; color:var(--chalk-dim);
+    margin-bottom:16px;
+  }
+  .inline-form .checkbox-row input{accent-color:var(--gold);}
+  .inline-form .f-actions{display:flex; gap:10px; margin-top:18px;}
+  .inline-form .f-actions button{
+    flex:1;
+    padding:10px 14px;
+    border-radius:8px;
+    font-family:'Cairo', sans-serif;
+    font-size:.85rem;
+    cursor:pointer;
+    transition:.18s;
+  }
+  .inline-form .btn-save{
+    background:var(--gold); border:1px solid var(--gold); color:#16241f; font-weight:700;
+  }
+  .inline-form .btn-save:hover{opacity:.88;}
+  .inline-form .btn-cancel{
+    background:transparent; border:1px solid var(--teal-line); color:var(--chalk-dim);
+  }
+  .inline-form .btn-cancel:hover{border-color:var(--coral); color:var(--coral);}
+  .inline-form .f-hint{font-size:.72rem; color:var(--chalk-dim); margin-top:6px; line-height:1.6;}
+
+  /* CUSTOM CONFIRM MODAL (native confirm() is blocked in sandboxed previews) */
+  .confirm-overlay{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(10,16,14,.72);
+    z-index:50;
+    align-items:center; justify-content:center;
+    padding:20px;
+  }
+  .confirm-overlay.open{display:flex;}
+  .confirm-box{
+    background:var(--board-2);
+    border:1px solid var(--coral);
+    border-radius:var(--radius);
+    padding:24px 22px;
+    max-width:340px;
+    text-align:center;
+  }
+  .confirm-box p{
+    color:var(--chalk);
+    font-size:.92rem;
+    line-height:1.8;
+    margin:0 0 20px;
+  }
+  .confirm-box .f-actions{display:flex; gap:10px;}
+  .confirm-box .f-actions button{
+    flex:1; padding:10px 14px; border-radius:8px;
+    font-family:'Cairo', sans-serif; font-size:.85rem; cursor:pointer; transition:.18s;
+  }
+  .confirm-box .btn-yes{background:var(--coral); border:1px solid var(--coral); color:var(--board); font-weight:700;}
+  .confirm-box .btn-yes:hover{opacity:.85;}
+  .confirm-box .btn-no{background:transparent; border:1px solid var(--teal-line); color:var(--chalk-dim);}
+  .confirm-box .btn-no:hover{border-color:var(--gold); color:var(--gold);}
+
+  /* FILES ATTACHMENTS */
+  .files-box{
+    margin-top:28px;
+    border-radius:var(--radius);
+    border:1px solid var(--teal-line);
+    padding:16px 18px;
+  }
+  .files-box .n-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;}
+  .files-box .n-head strong{font-size:.9rem; color:var(--chalk); font-family:'Reem Kufi', sans-serif; font-weight:400;}
+  .file-add-btn{
+    background:transparent;
+    border:1.5px dashed var(--gold);
+    color:var(--gold);
+    font-family:'Cairo', sans-serif;
+    font-size:.78rem;
+    padding:6px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:.2s;
+  }
+  .file-add-btn:hover{background:var(--gold); color:#16241f;}
+  .file-list{display:flex; flex-direction:column; gap:8px;}
+  .file-empty{font-size:.82rem; color:var(--chalk-dim); padding:6px 2px;}
+  .file-item{
+    display:flex; align-items:center; gap:10px;
+    background:var(--board-2);
+    border:1px solid var(--teal-line);
+    border-radius:10px;
+    padding:10px 12px;
+  }
+  .file-item .f-icon{
+    width:32px;height:32px; flex-shrink:0;
+    border-radius:8px;
+    background:rgba(215,160,52,.12);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--gold);
+    font-size:.7rem;
+    font-weight:700;
+  }
+  .file-item .f-name{
+    flex:1; min-width:0;
+    font-size:.85rem; color:var(--chalk);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    text-decoration:none;
+  }
+  .file-item .f-name:hover{color:var(--gold);}
+  .file-item .f-size{font-size:.72rem; color:var(--chalk-dim); flex-shrink:0;}
+  .file-item .f-del{
+    background:transparent; border:none; color:var(--coral);
+    cursor:pointer; font-size:.9rem; flex-shrink:0; padding:4px;
+  }
+  .file-item .f-del:hover{opacity:.7;}
 
   /* CHAPTER VIEW (list of lessons) */
   .hero{margin:38px 0 34px;}
@@ -309,7 +497,23 @@
       <div class="underline"></div>
       <p class="course-desc">اختر الفصل اللي تبي تذاكره. كل فصل فيه دروسه وفيديوهاته وملاحظاتك.</p>
       <div class="chapter-btns" id="chapterBtns"></div>
-      <div class="add-chapter-hint" id="addHint">+ جاهز أضيف Chapter 4 و 5 و 6 أول ما ترسل روابطها</div>
+      <button class="delete-btn" id="deleteChapBtn" onclick="toggleChapterDeleteMode()">حذف</button>
+      <button class="add-btn" onclick="toggleForm('chapterForm')">+ إضافة تشابتر جديد</button>
+
+      <div class="inline-form" id="chapterForm">
+        <div class="f-row">
+          <label>رقم الفصل (مثال: 4)</label>
+          <input type="text" id="newChapNum" placeholder="4">
+        </div>
+        <div class="f-row">
+          <label>اسم الفصل</label>
+          <input type="text" id="newChapTitle" placeholder="Chapter 4">
+        </div>
+        <div class="f-actions">
+          <button class="btn-save" onclick="addChapter()">إضافة</button>
+          <button class="btn-cancel" onclick="toggleForm('chapterForm')">إلغاء</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -320,7 +524,33 @@
       <p>افتح أي درس، شاهد الفيديو داخل الموقع، ودوّن ملاحظاتك تحته — تنحفظ تلقائي.</p>
     </div>
     <div class="timeline" id="timeline"></div>
-    <div class="add-note">+ جاهز أضيف باقي دروس هذا الفصل أول ما ترسلها.</div>
+
+    <button class="delete-btn" id="deleteLessonBtn" onclick="toggleLessonDeleteMode()">حذف</button>
+    <button class="add-btn" onclick="toggleForm('lessonForm')">+ إضافة درس جديد</button>
+
+    <div class="inline-form" id="lessonForm">
+      <div class="f-row">
+        <label>رقم الدرس (مثال: 3.7)</label>
+        <input type="text" id="newLessonNum" placeholder="3.7">
+      </div>
+      <div class="f-row">
+        <label>اسم الدرس</label>
+        <input type="text" id="newLessonTitle" placeholder="الفصل 3.7">
+      </div>
+      <div class="f-row">
+        <label>رابط الفيديو (يوتيوب)</label>
+        <input type="url" id="newLessonVideo" placeholder="https://youtu.be/...">
+        <div class="f-hint">تقدر تحط أكثر من رابط، افصل بينها بفاصلة إذا فيه أكثر من فيديو للدرس.</div>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="newLessonQuiz">
+        <label style="margin:0;">هذا كويز / مراجعة</label>
+      </div>
+      <div class="f-actions">
+        <button class="btn-save" onclick="addLesson()">إضافة</button>
+        <button class="btn-cancel" onclick="toggleForm('lessonForm')">إلغاء</button>
+      </div>
+    </div>
   </div>
 
   <!-- LESSON VIEW -->
@@ -334,6 +564,15 @@
     </div>
 
     <div id="cvVideos"></div>
+
+    <div class="files-box">
+      <div class="n-head">
+        <strong>ملفات مرفقة</strong>
+        <button class="file-add-btn" onclick="document.getElementById('fileInput').click()">+ إضافة ملف</button>
+      </div>
+      <input type="file" id="fileInput" style="display:none" onchange="handleFileAdd(event)">
+      <div class="file-list" id="fileList"></div>
+    </div>
 
     <div class="notes-box">
       <div class="n-head">
@@ -349,6 +588,16 @@
     </div>
   </div>
 
+</div>
+
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <p id="confirmMsg"></p>
+    <div class="f-actions">
+      <button class="btn-yes" id="confirmYesBtn">حذف</button>
+      <button class="btn-no" onclick="closeConfirm()">إلغاء</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -371,6 +620,200 @@
     ]
   };
 
+  // ---- Load user-added chapters/lessons from localStorage and merge ----
+  const STORE_KEY = 'mathhub-user-content';
+  function loadUserData(){
+    try{
+      return JSON.parse(localStorage.getItem(STORE_KEY)) || { chapters: [], lessons: {} };
+    }catch(e){
+      return { chapters: [], lessons: {} };
+    }
+  }
+  function saveUserData(data){
+    localStorage.setItem(STORE_KEY, JSON.stringify(data));
+  }
+  const userData = loadUserData();
+  userData.chapters.forEach(ch => course.chapters.push(ch));
+  Object.keys(userData.lessons).forEach(chId => {
+    const ch = course.chapters.find(c => c.id === chId);
+    if(ch) userData.lessons[chId].forEach(l => ch.lessons.push(l));
+  });
+
+  // ---- Deleted items tracking (so base hard-coded chapters/lessons can be hidden too) ----
+  const DELETED_KEY = 'mathhub-deleted';
+  function loadDeleted(){
+    try{
+      return JSON.parse(localStorage.getItem(DELETED_KEY)) || { chapters: [], lessons: [] };
+    }catch(e){
+      return { chapters: [], lessons: [] };
+    }
+  }
+  function saveDeleted(d){
+    localStorage.setItem(DELETED_KEY, JSON.stringify(d));
+  }
+  const deleted = loadDeleted();
+  course.chapters = course.chapters.filter(ch => !deleted.chapters.includes(ch.id));
+  course.chapters.forEach(ch => {
+    ch.lessons = ch.lessons.filter(l => !deleted.lessons.includes(l.id));
+  });
+
+  // ---- Custom confirm modal (native confirm() is blocked in sandboxed previews) ----
+  function showAlert(message){
+    document.getElementById('confirmMsg').textContent = message;
+    document.querySelector('.confirm-box .btn-no').style.display = 'none';
+    document.getElementById('confirmYesBtn').textContent = 'حسنًا';
+    document.getElementById('confirmOverlay').classList.add('open');
+    pendingConfirmAction = null;
+  }
+
+  let pendingConfirmAction = null;
+  function showConfirm(message, onYes){
+    document.getElementById('confirmMsg').textContent = message;
+    document.querySelector('.confirm-box .btn-no').style.display = 'block';
+    document.getElementById('confirmYesBtn').textContent = 'حذف';
+    document.getElementById('confirmOverlay').classList.add('open');
+    pendingConfirmAction = onYes;
+  }
+  function closeConfirm(){
+    document.getElementById('confirmOverlay').classList.remove('open');
+    pendingConfirmAction = null;
+  }
+  document.getElementById('confirmYesBtn').onclick = () => {
+    const action = pendingConfirmAction;
+    closeConfirm();
+    if(action) action();
+  };
+
+  function deleteChapter(chapterId, title){
+    showConfirm('متأكد تبي تحذف "' + title + '" وكل دروسه؟ ما تقدر ترجعه بعدين.', () => {
+      deleted.chapters.push(chapterId);
+      saveDeleted(deleted);
+      course.chapters = course.chapters.filter(ch => ch.id !== chapterId);
+      userData.chapters = userData.chapters.filter(ch => ch.id !== chapterId);
+      saveUserData(userData);
+      renderChapterButtons();
+    });
+  }
+
+  function deleteLesson(chapterId, lessonId, title){
+    showConfirm('متأكد تبي تحذف "' + title + '"؟ ما تقدر ترجعه بعدين.', () => {
+      deleted.lessons.push(lessonId);
+      saveDeleted(deleted);
+      const ch = course.chapters.find(c => c.id === chapterId);
+      if(ch) ch.lessons = ch.lessons.filter(l => l.id !== lessonId);
+      if(userData.lessons[chapterId]){
+        userData.lessons[chapterId] = userData.lessons[chapterId].filter(l => l.id !== lessonId);
+        saveUserData(userData);
+      }
+      openChapter(chapterId);
+    });
+  }
+
+  function slugify(str){
+    return str.toString().trim().toLowerCase()
+      .replace(/[^a-z0-9\u0600-\u06FF]+/g, '-')
+      .replace(/(^-|-$)/g, '') || ('id-' + Date.now());
+  }
+
+  function extractVideoId(url){
+    url = url.trim();
+    if(!url) return null;
+    // already a bare ID
+    if(/^[a-zA-Z0-9_-]{11}$/.test(url)) return url;
+    const patterns = [
+      /youtu\.be\/([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+      /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/
+    ];
+    for(const p of patterns){
+      const m = url.match(p);
+      if(m) return m[1];
+    }
+    return null;
+  }
+
+  function toggleForm(id){
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  function addChapter(){
+    const numEl = document.getElementById('newChapNum');
+    const titleEl = document.getElementById('newChapTitle');
+    const num = numEl.value.trim();
+    let title = titleEl.value.trim();
+    if(!title){
+      title = num ? ('Chapter ' + num) : '';
+    }
+    if(!title){
+      showAlert('لازم تكتب اسم أو رقم الفصل');
+      return;
+    }
+    const newChapter = { id: 'ch-' + slugify(title), num: num || title, title: title, lessons: [] };
+    course.chapters.push(newChapter);
+    userData.chapters.push(newChapter);
+    saveUserData(userData);
+    numEl.value = '';
+    titleEl.value = '';
+    toggleForm('chapterForm');
+    renderChapterButtons();
+  }
+
+  let currentOpenChapterId = null;
+  let lessonDeleteMode = false;
+
+  function toggleLessonDeleteMode(){
+    lessonDeleteMode = !lessonDeleteMode;
+    const btn = document.getElementById('deleteLessonBtn');
+    btn.textContent = lessonDeleteMode ? 'تم' : 'حذف';
+    btn.classList.toggle('active', lessonDeleteMode);
+    document.getElementById('timeline').classList.toggle('delete-mode', lessonDeleteMode);
+  }
+
+  function addLesson(){
+    if(!currentOpenChapterId) return;
+    const numEl = document.getElementById('newLessonNum');
+    const titleEl = document.getElementById('newLessonTitle');
+    const videoEl = document.getElementById('newLessonVideo');
+    const quizEl = document.getElementById('newLessonQuiz');
+
+    const num = numEl.value.trim();
+    let title = titleEl.value.trim();
+    if(!title) title = num ? ('الدرس ' + num) : '';
+    if(!title){
+      showAlert('لازم تكتب اسم أو رقم الدرس');
+      return;
+    }
+    const rawVideos = videoEl.value.split(',').map(v => v.trim()).filter(Boolean);
+    const videos = rawVideos.map(extractVideoId).filter(Boolean);
+    if(rawVideos.length && !videos.length){
+      showAlert('ما قدرت أفهم رابط الفيديو، تأكد إنه رابط يوتيوب صحيح');
+      return;
+    }
+
+    const newLesson = {
+      id: 'l-' + slugify(title) + '-' + Date.now(),
+      num: num || '•',
+      title: title,
+      quiz: quizEl.checked,
+      videos: videos
+    };
+
+    const ch = course.chapters.find(c => c.id === currentOpenChapterId);
+    ch.lessons.push(newLesson);
+
+    if(!userData.lessons[currentOpenChapterId]) userData.lessons[currentOpenChapterId] = [];
+    userData.lessons[currentOpenChapterId].push(newLesson);
+    saveUserData(userData);
+
+    numEl.value = '';
+    titleEl.value = '';
+    videoEl.value = '';
+    quizEl.checked = false;
+    toggleForm('lessonForm');
+    openChapter(currentOpenChapterId);
+  }
+
   const courseView = document.getElementById('courseView');
   const chapterView = document.getElementById('chapterView');
   const lessonView = document.getElementById('lessonView');
@@ -380,14 +823,33 @@
   function renderChapterButtons(){
     chapterBtns.innerHTML = '';
     course.chapters.forEach(ch => {
+      const wrap = document.createElement('div');
+      wrap.className = 'chapter-btn-wrap';
+
       const btn = document.createElement('button');
       btn.className = 'chapter-btn';
       btn.textContent = ch.title;
-      btn.onclick = () => openChapter(ch.id);
-      chapterBtns.appendChild(btn);
+      btn.onclick = () => {
+        if(chapterDeleteMode){
+          deleteChapter(ch.id, ch.title);
+        }else{
+          openChapter(ch.id);
+        }
+      };
+      wrap.appendChild(btn);
+      chapterBtns.appendChild(wrap);
     });
   }
   renderChapterButtons();
+
+  let chapterDeleteMode = false;
+  function toggleChapterDeleteMode(){
+    chapterDeleteMode = !chapterDeleteMode;
+    const btn = document.getElementById('deleteChapBtn');
+    btn.textContent = chapterDeleteMode ? 'تم' : 'حذف';
+    btn.classList.toggle('active', chapterDeleteMode);
+    chapterBtns.classList.toggle('delete-mode', chapterDeleteMode);
+  }
 
   function showView(view){
     [courseView, chapterView, lessonView].forEach(v => v.classList.remove('active'));
@@ -403,15 +865,29 @@
   function openChapter(chapterId){
     const ch = course.chapters.find(c => c.id === chapterId);
     if(!ch) return;
+    currentOpenChapterId = chapterId;
+    document.getElementById('lessonForm').classList.remove('open');
 
     document.getElementById('chapTitle').textContent = ch.title;
 
     const timeline = document.getElementById('timeline');
     timeline.innerHTML = '';
+    lessonDeleteMode = false;
+    const delBtn = document.getElementById('deleteLessonBtn');
+    delBtn.textContent = 'حذف';
+    delBtn.classList.remove('active');
+    timeline.classList.remove('delete-mode');
+
     ch.lessons.forEach(l => {
       const card = document.createElement('div');
       card.className = 'chap-card' + (l.quiz ? ' quiz' : '');
-      card.onclick = () => openLesson(chapterId, l.id);
+      card.onclick = () => {
+        if(lessonDeleteMode){
+          deleteLesson(chapterId, l.id, l.title);
+        }else{
+          openLesson(chapterId, l.id);
+        }
+      };
       card.innerHTML = `
         <div class="chap-badge">${l.num}</div>
         <p class="chap-title">${l.title}</p>
@@ -445,6 +921,9 @@
 
     const videosWrap = document.getElementById('cvVideos');
     videosWrap.innerHTML = '';
+    if(!l.videos.length){
+      videosWrap.innerHTML = '<div class="add-note">ما فيه فيديو مضاف لهذا الدرس بعد.</div>';
+    }
     l.videos.forEach((vid, i) => {
       const block = document.createElement('div');
       block.className = 'video-block';
@@ -483,6 +962,91 @@
     nextBtn.disabled = idx === ch.lessons.length - 1;
     prevBtn.onclick = () => idx > 0 && openLesson(ch.id, ch.lessons[idx-1].id);
     nextBtn.onclick = () => idx < ch.lessons.length-1 && openLesson(ch.id, ch.lessons[idx+1].id);
+
+    currentLessonId = l.id;
+    renderFiles(l.id);
+  }
+
+  // ---- File attachments per lesson (stored as base64 in localStorage) ----
+  const FILES_KEY = 'mathhub-files';
+  let currentLessonId = null;
+
+  function loadAllFiles(){
+    try{
+      return JSON.parse(localStorage.getItem(FILES_KEY)) || {};
+    }catch(e){
+      return {};
+    }
+  }
+  function saveAllFiles(data){
+    try{
+      localStorage.setItem(FILES_KEY, JSON.stringify(data));
+      return true;
+    }catch(e){
+      showAlert('المساحة المحلية ممتلئة أو الملف كبير جدًا. جرب ملف أصغر أو احذف مرفقات قديمة.');
+      return false;
+    }
+  }
+
+  function formatSize(bytes){
+    if(bytes < 1024) return bytes + ' B';
+    if(bytes < 1024*1024) return (bytes/1024).toFixed(0) + ' KB';
+    return (bytes/(1024*1024)).toFixed(1) + ' MB';
+  }
+
+  function fileExtLabel(name){
+    const ext = (name.split('.').pop() || '?').toUpperCase();
+    return ext.length > 4 ? ext.slice(0,4) : ext;
+  }
+
+  function renderFiles(lessonId){
+    const allFiles = loadAllFiles();
+    const files = allFiles[lessonId] || [];
+    const list = document.getElementById('fileList');
+    list.innerHTML = '';
+    if(!files.length){
+      list.innerHTML = '<div class="file-empty">ما فيه ملفات مرفقة بعد.</div>';
+      return;
+    }
+    files.forEach((f, i) => {
+      const item = document.createElement('div');
+      item.className = 'file-item';
+      item.innerHTML = `
+        <div class="f-icon">${fileExtLabel(f.name)}</div>
+        <a class="f-name" href="${f.data}" download="${f.name}" title="${f.name}">${f.name}</a>
+        <span class="f-size">${formatSize(f.size)}</span>
+        <button class="f-del" onclick="deleteFile('${lessonId}', ${i})">✕</button>
+      `;
+      list.appendChild(item);
+    });
+  }
+
+  function handleFileAdd(evt){
+    const file = evt.target.files[0];
+    evt.target.value = '';
+    if(!file || !currentLessonId) return;
+    if(file.size > 4 * 1024 * 1024){
+      showAlert('الملف كبير (' + formatSize(file.size) + '). الحد الأقصى المستحسن حوالي 4MB لأن الحفظ محلي بالمتصفح.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const allFiles = loadAllFiles();
+      if(!allFiles[currentLessonId]) allFiles[currentLessonId] = [];
+      allFiles[currentLessonId].push({ name: file.name, size: file.size, data: reader.result });
+      if(saveAllFiles(allFiles)){
+        renderFiles(currentLessonId);
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function deleteFile(lessonId, index){
+    const allFiles = loadAllFiles();
+    if(!allFiles[lessonId]) return;
+    allFiles[lessonId].splice(index, 1);
+    saveAllFiles(allFiles);
+    renderFiles(lessonId);
   }
 </script>
 </body>
